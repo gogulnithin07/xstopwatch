@@ -32,22 +32,24 @@ function Timer() {
       clearInterval(intervalId);
     });
   }
+
+  function FormatTime(secs) {
+    const minutes = Math.floor(secs / 60);
+    const second = Math.floor(secs % 60);
+    return `${minutes}:${second < 9 ? "0" + second : second}`;
+  }
   return (
     <div>
       <h1>Stopwatch</h1>
-      {second === 0 ? (
-        <p>Time:0:00</p>
-      ) : (
-        <p>
-          Time:
-          {Math.floor(second / 60) < 9
-            ? "0" + Math.floor(second / 60)
-            : Math.floor(second / 60) || "00"}
-          :{second % 60 < 9 ? "0" + (second % 60) : second % 60 || "00"}
-        </p>
-      )}
-      <button onClick={(e) => handleClick(e)}>{stop ? "Stop" : "Start"}</button>
-      <button onClick={(e) => handleReset(e)}>Reset</button>
+
+      <p>
+        Time:
+        {FormatTime(second)}
+      </p>
+      <div className="buttons">
+        <button onClick={handleClick}>{stop ? "Stop" : "Start"}</button>
+        <button onClick={handleReset}>Reset</button>
+      </div>
     </div>
   );
 }
