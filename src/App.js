@@ -1,25 +1,58 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Timer />
     </div>
   );
 }
-
+function Timer() {
+  const [second, setSeconds] = useState(0);
+  const [stop, setStop] = useState(false);
+  const [intervalFun, setIntervalFun] = useState(null);
+  function handleClick(e) {
+    if (stop) {
+      setIntervalFun((intervalId) => {
+        clearInterval(intervalId);
+      });
+      setStop((c) => !c);
+    } else {
+      setIntervalFun(
+        setInterval(function () {
+          setSeconds((second) => second + 1);
+        }, 1000)
+      );
+      setStop((c) => !c);
+    }
+  }
+  function handleReset(e) {
+    setSeconds((c) => 0);
+    setIntervalFun((intervalId) => {
+      clearInterval(intervalId);
+    });
+  }
+  return (
+    <div>
+      <h1>Stopwatch</h1>
+      {second === 0 ? (
+        <p>Time:0:00</p>
+      ) : (
+        <p>
+          Time:
+          {Math.floor(second / 60) < 9
+            ? "0" + Math.floor(second / 60)
+            : Math.floor(second / 60) || "00"}
+          :{second % 60 < 9 ? "0" + (second % 60) : second % 60 || "00"}
+        </p>
+      )}
+      <div className="buttons">
+        <button onClick={(e) => handleClick(e)}>
+          {stop ? "stop" : "start"}
+        </button>
+        <button onClick={(e) => handleReset(e)}>Reset</button>
+      </div>
+    </div>
+  );
+}
 export default App;
