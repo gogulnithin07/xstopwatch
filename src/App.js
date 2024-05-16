@@ -46,12 +46,8 @@ function Timer() {
           :{second % 60 < 9 ? "0" + (second % 60) : second % 60 || "00"}
         </p>
       )}
-      <div className="buttons">
-        <button onClick={(e) => handleClick(e)}>
-          {stop ? "stop" : "start"}
-        </button>
-        <button onClick={(e) => handleReset(e)}>Reset</button>
-      </div>
+      <button onClick={(e) => handleClick(e)}>{stop ? "Stop" : "Start"}</button>
+      <button onClick={(e) => handleReset(e)}>Reset</button>
     </div>
   );
 }
